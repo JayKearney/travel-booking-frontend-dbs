@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import CommonHeading from "../common/CommonHeading";
 import { facility, roomItems } from "../data/Data";
 import "../../css/HotelBookingForm.css";
-import axios from '../../axios';
+import axio from '../../axios';
+
 
 export default function Rooms() {
   // State management for popups and reviews
@@ -19,7 +20,7 @@ export default function Rooms() {
   useEffect(() => {
     console.log('Fetching reviews...');
     
-    axios.get('http://localhost:5033/api/Review/GetReviews')
+    axio.get('/api/Review/GetReviews')
       .then(response => {
         console.log('API response:', response.data); // Log the API response
         setReviews(response.data); // Update the reviews state with the data
@@ -52,7 +53,7 @@ export default function Rooms() {
     setReviews([...reviews, reviewForm]); // Add new review to the list
     console.log(reviewForm); // Handle form submission
     if (reviewForm.id != null && reviewForm.id !== "") {
-      axios.put(`http://localhost:5033/api/Review/UpdateReview/${reviewForm.id}`, reviewForm)
+      axio.put(`/api/Review/UpdateReview/${reviewForm.id}`, reviewForm)
         .then(response => {
           if (response.status === 200) {
             alert("Review Updated Successfully");
@@ -67,7 +68,7 @@ export default function Rooms() {
       return;
     }
     
-    const response = axios.post('http://localhost:5033/api/Review/AddReview', reviewForm)
+    const response = axio.post('/api/Review/AddReview', reviewForm)
       .then(response => {
         console.log('API response:', response); // Log the API response
         if (response.status === 201) {
@@ -113,7 +114,7 @@ export default function Rooms() {
 
 // Handler for deleting reviews
 const handleDelete = (id) => {
-  axios.delete(`http://localhost:5033/api/Review/DeleteReview/${id}`)
+  axio.delete(`/api/Review/DeleteReview/${id}`)
     .then(response => {
       if (response.status === 200) {
         alert("Review Deleted Successfully");
